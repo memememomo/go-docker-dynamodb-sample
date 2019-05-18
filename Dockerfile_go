@@ -1,0 +1,16 @@
+FROM golang:1.11.5-alpine
+
+# 必要なパッケージをインストール
+RUN apk add --no-cache git bash make curl gcc libc-dev openssl && \
+    go get -u github.com/golang/dep/cmd/dep && \
+    go get -u golang.org/x/lint/golint && \
+    go get -u github.com/kyoh86/richgo
+
+# コンテナ内のディレクトリを作成
+WORKDIR /go/src/go-docker-dynamodb-sample
+
+# ホストPCのカレントディレクトリにあるファイルを、コンテナ内のディレクトリにコピー
+COPY . /go/src/go-docker-dynamodb-sample
+
+# Go言語で使う依存モジュールをインストール
+RUN dep ensure

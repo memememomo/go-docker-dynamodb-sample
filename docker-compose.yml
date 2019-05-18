@@ -1,0 +1,28 @@
+version: '3'
+services:
+  go:
+    command: ./scripts/run.sh
+    build:
+      context: ./
+      dockerfile: ./Dockerfile_go
+    volumes:
+      - .:/go/src/go-docker-dynamodb-sample
+    depends_on:
+      - dynamodb
+    environment:
+      - DYNAMO_ENDPOINT=http://dynamodb:8000/
+    networks:
+      - network
+
+  dynamodb:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile_dynamodb
+    ports:
+      - '8000:8000'
+    networks:
+      - network
+
+networks:
+  network:
+    driver: bridge

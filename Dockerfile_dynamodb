@@ -1,0 +1,4 @@
+FROM amazon/dynamodb-local
+
+# ポートをListenする設定。外部からDynamoDBにアクセスするため
+EXPOSE 8000
